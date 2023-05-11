@@ -1,31 +1,31 @@
 <?php
-class Roulette {
-    private static $rooms = array();
+session_start();  // Iniciar sesión al comienzo del script
 
+class Roulette {
     public static function createRoom($roomName) {
-        if (isset(self::$rooms[$roomName])) {
+        if (isset($_SESSION['rooms'][$roomName])) {
             throw new Exception('Room already exists');
         }
-        self::$rooms[$roomName] = array();
+        $_SESSION['rooms'][$roomName] = array();
     }
 
     public static function addElement($roomName, $element) {
-        if (!isset(self::$rooms[$roomName])) {
+        if (!isset($_SESSION['rooms'][$roomName])) {
             throw new Exception('Room does not exist');
         }
-        array_push(self::$rooms[$roomName], $element);
+        array_push($_SESSION['rooms'][$roomName], $element);
     }
 
     public static function spin($roomName) {
-        if (!isset(self::$rooms[$roomName])) {
+        if (!isset($_SESSION['rooms'][$roomName])) {
             throw new Exception('Room does not exist');
         }
-        if (count(self::$rooms[$roomName]) < 2) {
+        if (count($_SESSION['rooms'][$roomName]) < 2) {
             throw new Exception('Not enough elements for a spin');
         }
-        $randomIndex = array_rand(self::$rooms[$roomName]);
-        $selectedElement = self::$rooms[$roomName][$randomIndex];
-        unset(self::$rooms[$roomName][$randomIndex]);
+        $randomIndex = array_rand($_SESSION['rooms'][$roomName]);
+        $selectedElement = $_SESSION['rooms'][$roomName][$randomIndex];
+        unset($_SESSION['rooms'][$roomName][$randomIndex]);
 
         return $selectedElement;
     }
