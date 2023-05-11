@@ -1,0 +1,11 @@
+version: '3'
+services:
+  web:
+    image: php:7.4-apache
+    volumes:
+      - ./app:/var/www/html
+    ports:
+      - 8000:80
+
+volumes:
+  db_data:
